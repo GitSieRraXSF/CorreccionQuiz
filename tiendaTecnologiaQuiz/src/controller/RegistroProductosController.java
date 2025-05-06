@@ -75,7 +75,6 @@ public class RegistroProductosController {
 					Alert.AlertType.WARNING);
 		}
 		initialize();
-
 	}
 
 	@FXML
