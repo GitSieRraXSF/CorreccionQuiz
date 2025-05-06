@@ -85,7 +85,7 @@ public class RegistroProductosController {
 		int cantidad = Integer.parseInt(txtCantidad.getText());
 		if (!productoDAO.authenticate(referencia)) {
 			Producto producto = new Producto(referencia, nombre, precio, cantidad);
-			if (productoDAO.fetch().size() >= 100) {
+			if (productoDAO.fetch().size() <= 100) {
 				productoDAO.save(producto);
 				initialize();
 			}
