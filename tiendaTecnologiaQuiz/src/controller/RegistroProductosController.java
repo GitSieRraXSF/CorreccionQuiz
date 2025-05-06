@@ -52,7 +52,6 @@ public class RegistroProductosController {
 		// Filter available books and add them to the availableBooks list
 		for (Producto producto : productoDAO.fetch()) {
 			availableProductos.add(producto);
-
 		}
 
 		// Bind only the columns you want to show
@@ -87,15 +86,14 @@ public class RegistroProductosController {
 		int cantidad = Integer.parseInt(txtCantidad.getText());
 		if (!productoDAO.authenticate(referencia)) {
 			Producto producto = new Producto(referencia, nombre, precio, cantidad);
-
-			productoDAO.save(producto);
-			initialize();
+			if (productoDAO.fetch().size() >= 100) {
+				productoDAO.save(producto);
+				initialize();
+			}
 		} else {
 			Main.showAlert("Referencia repetida", "Referencia repetida", "Debe registrar una referencia diferente",
 					Alert.AlertType.WARNING);
-
 		}
-
 	}
 
 	@FXML
