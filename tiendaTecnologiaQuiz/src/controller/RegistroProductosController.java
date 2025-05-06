@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.sql.Connection;
 
 import application.Main;
@@ -19,91 +18,89 @@ import model.Producto;
 
 public class RegistroProductosController {
 
-    @FXML
-    private TableColumn<Producto, Integer> columnCantidad;
+	@FXML
+	private TableColumn<Producto, Integer> columnCantidad;
 
-    @FXML
-    private TableColumn<Producto, String> columnNombre;
+	@FXML
+	private TableColumn<Producto, String> columnNombre;
 
-    @FXML
-    private TableColumn<Producto, Double> columnPrecio;
+	@FXML
+	private TableColumn<Producto, Double> columnPrecio;
 
-    @FXML
-    private TableView<Producto> tableProductos;
+	@FXML
+	private TableView<Producto> tableProductos;
 
-    @FXML
-    private TextField txtCantidad;
+	@FXML
+	private TextField txtCantidad;
 
-    @FXML
-    private TextField txtNombre;
+	@FXML
+	private TextField txtNombre;
 
-    @FXML
-    private TextField txtPrecio;
+	@FXML
+	private TextField txtPrecio;
 
-    @FXML
-    private TextField txtReferencia;
-    
-    private Connection connection = DBConnection.getInstance().getConnection();
-    private ProductoDAO productoDAO = new ProductoDAO(connection);
-    
-    @FXML
-    public void initialize() {
-    
+	@FXML
+	private TextField txtReferencia;
 
-    	ObservableList<Producto> availableProductos = FXCollections.observableArrayList();
-    	// Filter available books and add them to the availableBooks list
-        for (Producto producto: productoDAO.fetch()) {
-                availableProductos.add(producto);	               
-            
-        }
-       
-        // Bind only the columns you want to show
-        columnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        columnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
-        columnCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+	private Connection connection = DBConnection.getInstance().getConnection();
+	private ProductoDAO productoDAO = new ProductoDAO(connection);
 
-        // Set data to TableView
-        tableProductos.setItems(availableProductos);
-    }
-    
+	@FXML
+	public void initialize() {
 
-    @FXML
-    void eliminar(ActionEvent event) {
-    	
-       	if(!tableProductos.getSelectionModel().isEmpty()) {
-	    	Producto producto = tableProductos.getSelectionModel().getSelectedItem();		    	
-        	productoDAO.delete(producto.getReferencia());
-        	initialize();
-        	} else {
-        		Main.showAlert("Seleccione un registro", "Seleccione un registro", "Debe seleccionar un dato de la tabla",Alert.AlertType.WARNING);
-            }
-    	initialize();
+		ObservableList<Producto> availableProductos = FXCollections.observableArrayList();
+		// Filter available books and add them to the availableBooks list
+		for (Producto producto : productoDAO.fetch()) {
+			availableProductos.add(producto);
 
-    }
+		}
 
-    @FXML
-    void registrar(ActionEvent event) {
-    	int referencia = Integer.parseInt(txtReferencia.getText());
-    	double precio = Double.parseDouble(txtPrecio.getText());
-    	String nombre = txtNombre.getText();
-    	int cantidad = Integer.parseInt(txtCantidad.getText());
-    	if(!productoDAO.authenticate(referencia)) {
-    	Producto producto = new Producto(referencia,nombre,precio,cantidad);
-    	
-    	productoDAO.save(producto);
-    	initialize();
-    	}else {
-    		Main.showAlert("Referencia repetida", "Referencia repetida", "Debe registrar una referencia diferente",Alert.AlertType.WARNING);
+		// Bind only the columns you want to show
+		columnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+		columnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+		columnCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
 
-    	}
-    	
+		// Set data to TableView
+		tableProductos.setItems(availableProductos);
+	}
 
-    }
-    
-    @FXML
-    void cerrarSesion(ActionEvent event) {
-    	Main.loadView("/view/Login.fxml");
-    }
+	@FXML
+	void eliminar(ActionEvent event) {
+
+		if (!tableProductos.getSelectionModel().isEmpty()) {
+			Producto producto = tableProductos.getSelectionModel().getSelectedItem();
+			productoDAO.delete(producto.getReferencia());
+			initialize();
+		} else {
+			Main.showAlert("Seleccione un registro", "Seleccione un registro", "Debe seleccionar un dato de la tabla",
+					Alert.AlertType.WARNING);
+		}
+		initialize();
+
+	}
+
+	@FXML
+	void registrar(ActionEvent event) {
+		int referencia = Integer.parseInt(txtReferencia.getText());
+		double precio = Double.parseDouble(txtPrecio.getText());
+		String nombre = txtNombre.getText();
+		int cantidad = Integer.parseInt(txtCantidad.getText());
+		if (!productoDAO.authenticate(referencia)) {
+			Producto producto = new Producto(referencia, nombre, precio, cantidad);
+
+			productoDAO.save(producto);
+			initialize();
+		} else {
+			Main.showAlert("Referencia repetida", "Referencia repetida", "Debe registrar una referencia diferente",
+					Alert.AlertType.WARNING);
+
+		}
+
+	}
+
+	@FXML
+	void cerrarSesion(ActionEvent event) {
+		Main.loadView("/view/Login.fxml");
+	}
 
 }
-
