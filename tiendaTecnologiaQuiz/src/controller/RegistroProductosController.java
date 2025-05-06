@@ -99,5 +99,4 @@ public class RegistroProductosController {
 	void cerrarSesion(ActionEvent event) {
 		Main.loadView("/view/Login.fxml");
 	}
-
 }
