@@ -90,8 +90,7 @@ public class RegistroProductosController {
 				initialize();
 			}
 		} else {
-			Main.showAlert("Referencia repetida", "Referencia repetida", "Debe registrar una referencia diferente",
-					Alert.AlertType.WARNING);
+			Main.showAlert("Referencia repetida", "Referencia repetida", "Debe registrar una referencia diferente", Alert.AlertType.WARNING);
 		}
 	}
 
