@@ -41,6 +41,7 @@ public class LoginController {
 				} else {
 					Main.showAlert("Usuario Invalida", "Usuario Invalido", "Digite un usuario valido.", Alert.AlertType.WARNING);
 				}
+				break;
 			case "teacher":
 				connection = DBConnectionFactory.getConnectionByRole("teacher").getConnection();
 				usuarioDAO = new UsuarioDAO(connection);
@@ -49,6 +50,7 @@ public class LoginController {
 				} else {
 					Main.showAlert("Usuario Invalida", "Usuario Invalido", "Digite un usuario valido.", Alert.AlertType.WARNING);
 				}
+				break;
 			case "student":
 				connection = DBConnectionFactory.getConnectionByRole("student").getConnection();
 				usuarioDAO = new UsuarioDAO(connection);
@@ -57,6 +59,7 @@ public class LoginController {
 				} else {
 					Main.showAlert("Usuario Invalida", "Usuario Invalido", "Digite un usuario valido.", Alert.AlertType.WARNING);
 				}
+				break;
 		}
 	}
 }

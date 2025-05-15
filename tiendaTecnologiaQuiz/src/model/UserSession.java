@@ -37,7 +37,7 @@ public class UserSession {
     }
 
     // Method to destroy session (e.g., on logout)
-    public static void destroy() {
+    public void destroy() {
         instance = null;
     }
 }

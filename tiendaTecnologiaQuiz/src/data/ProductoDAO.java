@@ -45,6 +45,19 @@ public class ProductoDAO {
 		}
 		return productos;
 	}
+	
+	public void update(Producto producto) {
+		String sql = "UPDATE PROGRAMMINGII.Producto SET nombre = ?, precio = ?, cantidad = ? WHERE referencia = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, producto.getNombre());
+			stmt.setDouble(2, producto.getPrecio());
+			stmt.setInt(3, producto.getCantidad());
+			stmt.setInt(4, producto.getReferencia());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void delete(int referencia) {
 		String sql = "DELETE FROM PROGRAMMINGII.Producto WHERE referencia=?";

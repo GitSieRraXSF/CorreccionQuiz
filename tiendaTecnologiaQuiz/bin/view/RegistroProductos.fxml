@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" stylesheets="@../../resources/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistroProductosController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" stylesheets="@../../resources/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistroProductosController">
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="vbox" BorderPane.alignment="CENTER">
          <children>
@@ -66,6 +66,7 @@
                   <Button mnemonicParsing="false" onAction="#eliminar" text="Eliminar" GridPane.rowIndex="6" />
                   <Button mnemonicParsing="false" onAction="#registrar" text="Registrar" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Button mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesión" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Button mnemonicParsing="false" onAction="#actualizarP" text="Renovar" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                </children>
             </GridPane>
          </children>
