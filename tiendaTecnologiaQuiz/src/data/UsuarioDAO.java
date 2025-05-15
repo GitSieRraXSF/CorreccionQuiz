@@ -14,16 +14,16 @@ public class UsuarioDAO {
 		this.connection = connection;
 	}
 
-	public boolean authenticate(String nickname, String contraseña, String role) {
+	public boolean authenticate(String nickname, String contraseña, String rol) {
 		String sql = "SELECT * FROM PROGRAMMINGII.Usuario WHERE nickname=? AND contraseña=? AND rol=?";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setString(1, nickname);
 			stmt.setString(2, contraseña);
-			stmt.setString(3, role);
+			stmt.setString(3, rol);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
-				usersession = UserSession.getInstance(nickname, role);
-				return rs.getString("nickname").equals(nickname) && rs.getString("contraseña").equals(contraseña) && rs.getString("rol").equals(role);
+				usersession = UserSession.getInstance(nickname, rol);
+				return rs.getString("nickname").equals(nickname) && rs.getString("contraseña").equals(contraseña) && rs.getString("rol").equals(rol);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
