@@ -88,6 +88,8 @@ public class RegistroProductosController {
 			if (productoDAO.fetch().size() <= 100) {
 				productoDAO.save(producto);
 				initialize();
+			} else {
+				Main.showAlert("Alertad!", "Cantidad de llena", "Deberas eliminar algunos productos para guardar otro.", Alert.AlertType.ERROR);
 			}
 		} else {
 			Main.showAlert("Referencia repetida", "Referencia repetida", "Debe registrar una referencia diferente", Alert.AlertType.WARNING);
