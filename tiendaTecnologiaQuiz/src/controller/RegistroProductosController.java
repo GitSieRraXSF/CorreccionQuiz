@@ -49,6 +49,7 @@ public class RegistroProductosController {
 	public void initialize() {
 		System.out.print("Rol recurrente: ");
 		System.out.println(UserSession.getInstance().getRole());
+		
 		ObservableList<Producto> availableProductos = FXCollections.observableArrayList();
 		// Filter available books and add them to the availableBooks list
 		for (Producto producto : productoDAO.fetch()) {
@@ -91,6 +92,7 @@ public class RegistroProductosController {
 		} else {
 			Main.showAlert("Referencia repetida O Acceso denegado", "Referencia repetida O Acceso denegado", "Debe registrar una referencia diferente O debes entrar al rol respectivo.", Alert.AlertType.WARNING);
 		}
+		initialize();
 	}
 	
 	@FXML
@@ -106,6 +108,7 @@ public class RegistroProductosController {
 		} else {
 			Main.showAlert("Actualizacion Erronea O Acceso denegado", "Actualizacion Erronea O Acceso denegado", "Debe haber una actualizacion valida para un producto O debes entrar al rol respectivo.", Alert.AlertType.WARNING);
 		}
+		initialize();
 	}
 
 	@FXML
