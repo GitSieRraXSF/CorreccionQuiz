@@ -16,7 +16,7 @@ public class ProductoDAO {
 	}
 
 	public void save(Producto producto) {
-		String sql = "INSERT INTO Producto (referencia, nombre, precio, cantidad) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO PROGRAMMINGII.Producto (referencia, nombre, precio, cantidad) VALUES (?, ?, ?, ?)";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setInt(1, producto.getReferencia());
 			stmt.setString(2, producto.getNombre());
@@ -30,7 +30,7 @@ public class ProductoDAO {
 
 	public ArrayList<Producto> fetch() {
 		ArrayList<Producto> productos = new ArrayList<>();
-		String sql = "SELECT * FROM Producto";
+		String sql = "SELECT * FROM PROGRAMMINGII.Producto";
 		try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 			while (rs.next()) {
 				int referencia = rs.getInt("referencia");
@@ -47,7 +47,7 @@ public class ProductoDAO {
 	}
 
 	public void delete(int referencia) {
-		String sql = "DELETE FROM Producto WHERE referencia=?";
+		String sql = "DELETE FROM PROGRAMMINGII.Producto WHERE referencia=?";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setInt(1, referencia);
 			stmt.executeUpdate();
@@ -57,7 +57,7 @@ public class ProductoDAO {
 	}
 
 	public boolean authenticate(int referencia) {
-		String sql = "SELECT * FROM Producto WHERE referencia=?";
+		String sql = "SELECT * FROM PROGRAMMINGII.Producto WHERE referencia=?";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setInt(1, referencia);
 			ResultSet rs = stmt.executeQuery();

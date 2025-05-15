@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class TeacherConnection {
+public class TeacherConnection implements DBConnection{
     private static TeacherConnection instance; //Singleton
     private Connection connection;
 	private final String username="teacherPro";

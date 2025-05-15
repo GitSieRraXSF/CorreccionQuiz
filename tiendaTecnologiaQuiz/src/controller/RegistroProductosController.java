@@ -1,9 +1,8 @@
 package controller;
 
 import java.sql.Connection;
-
 import application.Main;
-import data.DBConnection;
+import data.DBConnectionFactory;
 import data.ProductoDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Producto;
+import model.UserSession;
 
 public class RegistroProductosController {
 
@@ -42,7 +42,7 @@ public class RegistroProductosController {
 	@FXML
 	private TextField txtReferencia;
 
-	private Connection connection = DBConnection.getInstance().getConnection();
+	private Connection connection = DBConnectionFactory.getConnectionByRole(UserSession.getInstance().getRole()).getConnection();
 	private ProductoDAO productoDAO = new ProductoDAO(connection);
 
 	@FXML
@@ -71,8 +71,7 @@ public class RegistroProductosController {
 			productoDAO.delete(producto.getReferencia());
 			initialize();
 		} else {
-			Main.showAlert("Seleccione un registro", "Seleccione un registro", "Debe seleccionar un dato de la tabla",
-					Alert.AlertType.WARNING);
+			Main.showAlert("Seleccione un registro", "Seleccione un registro", "Debe seleccionar un dato de la tabla", Alert.AlertType.WARNING);
 		}
 		initialize();
 	}
@@ -89,7 +88,7 @@ public class RegistroProductosController {
 				productoDAO.save(producto);
 				initialize();
 			} else {
-				Main.showAlert("Alertad!", "Cantidad de llena", "Deberas eliminar algunos productos para guardar otro.", Alert.AlertType.ERROR);
+				Main.showAlert("Funcion Invalida!", "Inventario lleno", "Deberas eliminar algunos productos antes para guardar otro.", Alert.AlertType.ERROR);
 			}
 		} else {
 			Main.showAlert("Referencia repetida", "Referencia repetida", "Debe registrar una referencia diferente", Alert.AlertType.WARNING);

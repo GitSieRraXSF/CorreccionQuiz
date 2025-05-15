@@ -6,6 +6,6 @@ public interface DBConnection {
 
 	Connection getConnection();
 	
-	String getConnectionSring();
+	String getConnectionString();
 	
 }

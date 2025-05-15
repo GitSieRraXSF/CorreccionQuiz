@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class AdminConnection {
+public class AdminConnection implements DBConnection {
     private static AdminConnection instance; //Singleton
     private Connection connection;
 	private final String username="adminPro";
