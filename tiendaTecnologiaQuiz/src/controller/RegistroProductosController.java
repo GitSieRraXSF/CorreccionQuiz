@@ -33,21 +33,21 @@ public class RegistroProductosController {
 
 	@FXML
 	private TableColumn<Producto, Double> columnPrecio;
-	
+
 	@FXML
-    private TableColumn<Producto, Integer> columnRef1;
-	
+	private TableColumn<Producto, Integer> columnRef1;
+
 	@FXML
-    private TableColumn<Producto, String> columnNom1;
-	
+	private TableColumn<Producto, String> columnNom1;
+
 	@FXML
-    private TableColumn<Producto, Double> columnPre1;
+	private TableColumn<Producto, Double> columnPre1;
 
 	@FXML
 	private TableView<Producto> tableProductos;
-	
+
 	@FXML
-    private TableView<Producto> table1pro;
+	private TableView<Producto> table1pro;
 
 	@FXML
 	private TextField txtCantidad;
@@ -60,18 +60,19 @@ public class RegistroProductosController {
 
 	@FXML
 	private TextField txtReferencia;
-	
-	@FXML
-    private Button CATemplate;
 
-	private Connection connection = DBConnectionFactory.getConnectionByRole(UserSession.getInstance().getRole()).getConnection();
+	@FXML
+	private Button CATemplate;
+
+	private Connection connection = DBConnectionFactory.getConnectionByRole(UserSession.getInstance().getRole())
+			.getConnection();
 	private ProductoDAO productoDAO = new ProductoDAO(connection);
 
 	@FXML
 	public void initialize() {
 		System.out.print("Rol recurrente: ");
 		System.out.println(UserSession.getInstance().getRole());
-		
+
 		ObservableList<Producto> availableProductos = FXCollections.observableArrayList();
 		// Filter available products and add them to the availableProducts list
 		for (Producto producto : productoDAO.fetch()) {
@@ -92,7 +93,9 @@ public class RegistroProductosController {
 			productoDAO.delete(producto.getReferencia());
 			initialize();
 		} else {
-			Main.showAlert("Ningun producto seleccionado O Acceso denegado", "Referencia repetida O Acceso denegado", "Debe registrar una referencia diferente O debes entrar al rol respectivo.", Alert.AlertType.WARNING);
+			Main.showAlert("Ningun producto seleccionado O Acceso denegado", "Referencia repetida O Acceso denegado",
+					"Debe registrar una referencia diferente O debes entrar al rol respectivo.",
+					Alert.AlertType.WARNING);
 		}
 		initialize();
 	}
@@ -109,18 +112,21 @@ public class RegistroProductosController {
 				productoDAO.save(producto);
 				initialize();
 			} else {
-				Main.showAlert("Funcion Invalida!", "Inventario lleno", "Deberas eliminar algunos productos antes para guardar otro.", Alert.AlertType.ERROR);
+				Main.showAlert("Funcion Invalida!", "Inventario lleno",
+						"Deberas eliminar algunos productos antes para guardar otro.", Alert.AlertType.ERROR);
 			}
 		} else {
-			Main.showAlert("Referencia repetida O Acceso denegado", "Referencia repetida O Acceso denegado", "Debe registrar una referencia diferente O debes entrar al rol respectivo.", Alert.AlertType.WARNING);
+			Main.showAlert("Referencia repetida O Acceso denegado", "Referencia repetida O Acceso denegado",
+					"Debe registrar una referencia diferente O debes entrar al rol respectivo.",
+					Alert.AlertType.WARNING);
 		}
 	}
-	
+
 	@FXML
-    void nuevoTemplate(ActionEvent event) {
+	void nuevoTemplate(ActionEvent event) {
 		apachebook.createExcelFormat("Productos.xlsx");
-    }
-	
+	}
+
 	@FXML
 	void CargarTemplate(ActionEvent event) {
 		FileChooser file = new FileChooser();
@@ -129,6 +135,14 @@ public class RegistroProductosController {
 		Stage stage = (Stage) CATemplate.getScene().getWindow();
 		File archivoSeleccionado = file.showOpenDialog(stage);
 		ArrayList<Producto> productosExcel = apachebook.fetchExcel(archivoSeleccionado);
+		LoadTableView(productosExcel);
+	}
+
+	private void LoadTableView(ArrayList<Producto> productos) {
+		columnNom1.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+		columnPre1.setCellValueFactory(new PropertyValueFactory<>("precio"));
+		columnRef1.setCellValueFactory(new PropertyValueFactory<>("referencia"));
+		table1pro.getItems().setAll(productos);
 	}
 
 	@FXML
