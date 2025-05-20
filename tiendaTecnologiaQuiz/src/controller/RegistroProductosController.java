@@ -1,6 +1,9 @@
 package controller;
 
+import java.io.File;
 import java.sql.Connection;
+import java.util.ArrayList;
+
 import application.Main;
 import data.DBConnectionFactory;
 import data.ProductoDAO;
@@ -10,10 +13,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import model.Producto;
 import model.UserSession;
 
@@ -54,6 +60,9 @@ public class RegistroProductosController {
 
 	@FXML
 	private TextField txtReferencia;
+	
+	@FXML
+    private Button CATemplate;
 
 	private Connection connection = DBConnectionFactory.getConnectionByRole(UserSession.getInstance().getRole()).getConnection();
 	private ProductoDAO productoDAO = new ProductoDAO(connection);
@@ -111,6 +120,16 @@ public class RegistroProductosController {
     void nuevoTemplate(ActionEvent event) {
 		apachebook.createExcelFormat("Productos.xlsx");
     }
+	
+	@FXML
+	void CargarTemplate(ActionEvent event) {
+		FileChooser file = new FileChooser();
+		file.setTitle("Seleccionar archivo de excel");
+		file.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arhivos Excel", "*.xlsx"));
+		Stage stage = (Stage) CATemplate.getScene().getWindow();
+		File archivoSeleccionado = file.showOpenDialog(stage);
+		ArrayList<Producto> productosExcel = apachebook.fetchExcel(archivoSeleccionado);
+	}
 
 	@FXML
 	void cerrarSesion(ActionEvent event) {
