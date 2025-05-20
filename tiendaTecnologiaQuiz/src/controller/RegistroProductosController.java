@@ -4,6 +4,7 @@ import java.sql.Connection;
 import application.Main;
 import data.DBConnectionFactory;
 import data.ProductoDAO;
+import data.apachebook;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -108,7 +109,7 @@ public class RegistroProductosController {
 	
 	@FXML
     void nuevoTemplate(ActionEvent event) {
-		
+		apachebook.createExcelFormat("Productos.xlsx");
     }
 
 	@FXML
