@@ -51,16 +51,14 @@ public class apachebook {
 			Sheet hoja = workbook.getSheetAt(0);
 
 			for (Row fila : hoja) {
-				if (fila.getRowNum() == 0)
-					continue; // Saltar encabezado
+				if (fila.getRowNum() == 0) continue; // Saltar encabezado
 
 				Cell cellReferencia = fila.getCell(0);
 				Cell cellNombre = fila.getCell(1);
 				Cell cellPrecio = fila.getCell(2);
 				Cell cellCantidad = fila.getCell(3);
 
-				if (cellReferencia == null || cellNombre == null || cellPrecio == null || cellCantidad == null)
-					continue;
+				if (cellReferencia == null || cellNombre == null || cellPrecio == null || cellCantidad == null) continue;
 
 				int referencia = (int) cellReferencia.getNumericCellValue();
 				String nombre = cellNombre.getStringCellValue();

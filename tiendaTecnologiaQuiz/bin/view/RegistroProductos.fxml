@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -30,6 +29,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <TableView fx:id="tableProductos" prefHeight="301.0" prefWidth="305.0" GridPane.rowIndex="1" GridPane.rowSpan="5">
@@ -42,10 +42,6 @@
                   <Label text="Productos disponibles" />
                   <Label text="Registro de productos" GridPane.columnIndex="1" />
                   <GridPane styleClass="grid-pane" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="4">
-                    <columnConstraints>
-                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -53,20 +49,20 @@
                       <RowConstraints maxHeight="26.600012207031256" minHeight="10.0" prefHeight="24.20001831054688" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Nombre" GridPane.rowIndex="1" />
-                        <Label text="Precio" GridPane.rowIndex="2" />
-                        <Label text="Cantidad" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtCantidad" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtNombre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtPrecio" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Referencia" />
-                        <TextField fx:id="txtReferencia" prefWidth="150.0" GridPane.columnIndex="1" />
+                        <TableView fx:id="table1pro" prefHeight="200.0" prefWidth="200.0" GridPane.rowSpan="4">
+                          <columns>
+                            <TableColumn fx:id="columnRef1" prefWidth="67.0" text="Referencia" />
+                            <TableColumn fx:id="columnNom1" prefWidth="69.0" text="Nombre" />
+                              <TableColumn fx:id="columnPre1" prefWidth="62.0" text="Precio" />
+                          </columns>
+                        </TableView>
                      </children>
                   </GridPane>
                   <Button mnemonicParsing="false" onAction="#eliminar" text="Eliminar" GridPane.rowIndex="6" />
                   <Button mnemonicParsing="false" onAction="#registrar" text="Registrar" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Button mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesión" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                   <Button mnemonicParsing="false" onAction="#actualizarP" text="Renovar" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Button mnemonicParsing="false" onAction="#nuevoTemplate" text="Crear Template" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                </children>
             </GridPane>
          </children>
