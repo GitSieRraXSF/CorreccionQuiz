@@ -60,9 +60,8 @@
                   </GridPane>
                   <Button mnemonicParsing="false" onAction="#eliminar" text="Eliminar" GridPane.rowIndex="6" />
                   <Button mnemonicParsing="false" onAction="#registrar" text="Registrar" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesión" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <Button mnemonicParsing="false" onAction="#actualizarP" text="Renovar" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <Button mnemonicParsing="false" onAction="#nuevoTemplate" text="Crear Template" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <Button mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesión" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Button mnemonicParsing="false" onAction="#nuevoTemplate" text="Crear Template" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                </children>
             </GridPane>
          </children>
