@@ -64,8 +64,7 @@ public class RegistroProductosController {
 	@FXML
 	private Button CATemplate;
 
-	private Connection connection = DBConnectionFactory.getConnectionByRole(UserSession.getInstance().getRole())
-			.getConnection();
+	private Connection connection = DBConnectionFactory.getConnectionByRole(UserSession.getInstance().getRole()).getConnection();
 	private ProductoDAO productoDAO = new ProductoDAO(connection);
 
 	@FXML
@@ -93,9 +92,7 @@ public class RegistroProductosController {
 			productoDAO.delete(producto.getReferencia());
 			initialize();
 		} else {
-			Main.showAlert("Ningun producto seleccionado O Acceso denegado", "Referencia repetida O Acceso denegado",
-					"Debe registrar una referencia diferente O debes entrar al rol respectivo.",
-					Alert.AlertType.WARNING);
+			Main.showAlert("Ningun producto seleccionado O Acceso denegado", "Referencia repetida O Acceso denegado", "Debe registrar una referencia diferente O debes entrar al rol respectivo.", Alert.AlertType.WARNING);
 		}
 		initialize();
 	}
@@ -112,30 +109,35 @@ public class RegistroProductosController {
 				productoDAO.save(producto);
 				initialize();
 			} else {
-				Main.showAlert("Funcion Invalida!", "Inventario lleno",
-						"Deberas eliminar algunos productos antes para guardar otro.", Alert.AlertType.ERROR);
+				Main.showAlert("Funcion Invalida!", "Inventario lleno", "Deberas eliminar algunos productos antes para guardar otro.", Alert.AlertType.ERROR);
 			}
 		} else {
-			Main.showAlert("Referencia repetida O Acceso denegado", "Referencia repetida O Acceso denegado",
-					"Debe registrar una referencia diferente O debes entrar al rol respectivo.",
-					Alert.AlertType.WARNING);
+			Main.showAlert("Referencia repetida O Acceso denegado", "Referencia repetida O Acceso denegado", "Debe registrar una referencia diferente O debes entrar al rol respectivo.", Alert.AlertType.WARNING);
 		}
 	}
 
 	@FXML
 	void nuevoTemplate(ActionEvent event) {
-		apachebook.createExcelFormat("Productos.xlsx");
+		if (UserSession.getInstance().getRole().equals("admin")) {
+			apachebook.createExcelFormat("Productos.xlsx");
+		} else {
+			Main.showAlert("Acceso denegado", "Rol no correspondiente", "Debes entrar al rol respectivo para crear los archivos.", Alert.AlertType.WARNING);
+		}
 	}
 
 	@FXML
 	void CargarTemplate(ActionEvent event) {
-		FileChooser file = new FileChooser();
-		file.setTitle("Seleccionar archivo de excel");
-		file.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arhivos Excel", "*.xlsx"));
-		Stage stage = (Stage) CATemplate.getScene().getWindow();
-		File archivoSeleccionado = file.showOpenDialog(stage);
-		ArrayList<Producto> productosExcel = apachebook.fetchExcel(archivoSeleccionado);
-		LoadTableView(productosExcel);
+		if (UserSession.getInstance().getRole().equals("admin")) {
+			FileChooser file = new FileChooser();
+			file.setTitle("Seleccionar archivo de excel");
+			file.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arhivos Excel", "*.xlsx"));
+			Stage stage = (Stage) CATemplate.getScene().getWindow();
+			File archivoSeleccionado = file.showOpenDialog(stage);
+			ArrayList<Producto> productosExcel = apachebook.fetchExcel(archivoSeleccionado);
+			LoadTableView(productosExcel);
+		} else {
+			Main.showAlert("Acceso denegado", "Rol no correspondiente", "Debes entrar al rol respectivo para cargar archivos.", Alert.AlertType.WARNING);
+		}
 	}
 
 	private void LoadTableView(ArrayList<Producto> productos) {

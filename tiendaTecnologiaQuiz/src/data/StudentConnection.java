@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class StudentConnection implements DBConnection{
     private static StudentConnection instance; //Singleton
     private Connection connection;
-	private final String username="studentPro";
-	private final String password="studentPro";
+	private final String username = "studentPro";
+	private final String password = "studentPro";
 	private final String host = "192.168.254.215";
 	private final String port = "1521";
 	private final String service = "orcl";
