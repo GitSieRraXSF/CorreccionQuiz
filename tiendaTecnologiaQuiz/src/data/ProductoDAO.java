@@ -1,11 +1,15 @@
 package data;
 
+import java.sql.CallableStatement;
+import oracle.jdbc.OracleTypes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import application.Main;
+import javafx.scene.control.Alert;
 import model.Producto;
 
 public class ProductoDAO {
@@ -16,8 +20,8 @@ public class ProductoDAO {
 	}
 
 	public void save(Producto producto) {
-		String sql = "INSERT INTO PROGRAMMINGII.Producto (referencia, nombre, precio, cantidad) VALUES (?, ?, ?, ?)";
-		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+		String sql = "{call PROGRAMMINGII.InsertProducto(?, ?, ?, ?)}";
+		try (CallableStatement stmt = connection.prepareCall(sql)) {
 			stmt.setInt(1, producto.getReferencia());
 			stmt.setString(2, producto.getNombre());
 			stmt.setDouble(3, producto.getPrecio());
@@ -25,30 +29,37 @@ public class ProductoDAO {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			Main.showAlert("Error...!", "Proceso invalido!", e.getMessage(), Alert.AlertType.ERROR);
 		}
 	}
 
 	public ArrayList<Producto> fetch() {
 		ArrayList<Producto> productos = new ArrayList<>();
-		String sql = "SELECT * FROM PROGRAMMINGII.Producto";
-		try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-			while (rs.next()) {
-				int referencia = rs.getInt("referencia");
-				String nombre = rs.getString("nombre");
-				double precio = rs.getDouble("precio");
-				int cantidad = rs.getInt("cantidad");
-				Producto producto = new Producto(referencia, nombre, precio, cantidad);
-				productos.add(producto);
+		//String sequel = "SELECT * FROM PROGRAMMINGII.Producto";
+		String sql = "{? = call PROGRAMMINGII.FetchProducts()}";
+		try (CallableStatement cs = connection.prepareCall(sql)) {
+			cs.registerOutParameter(1, OracleTypes.CURSOR);
+			cs.execute();
+			try (ResultSet rs = (ResultSet) cs.getObject(1)){
+				while (rs.next()) {
+					int referencia = rs.getInt("referencia");
+					String nombre = rs.getString("nombre");
+					double precio = rs.getDouble("precio");
+					int cantidad = rs.getInt("cantidad");
+					Producto producto = new Producto(referencia, nombre, precio, cantidad);
+					productos.add(producto);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			Main.showAlert("Error...!", "Proceso invalido!", e.getMessage(), Alert.AlertType.ERROR);
 		}
 		return productos;
 	}
 	
 	public void update(Producto producto) {
-		String sql = "UPDATE PROGRAMMINGII.Producto SET nombre = ?, precio = ?, cantidad = ? WHERE referencia = ?";
-		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+		String sql = "{call = PROGRAMMINGII.UpdateProducts(?, ?, ?, ?)}";
+		try (CallableStatement stmt = connection.prepareCall(sql)) {
 			stmt.setString(1, producto.getNombre());
 			stmt.setDouble(2, producto.getPrecio());
 			stmt.setInt(3, producto.getCantidad());
@@ -56,6 +67,7 @@ public class ProductoDAO {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			Main.showAlert("Error...!", "Proceso invalido!", e.getMessage(), Alert.AlertType.ERROR);
 		}
 	}
 
@@ -70,15 +82,16 @@ public class ProductoDAO {
 	}
 
 	public boolean authenticate(int referencia) {
-		String sql = "SELECT * FROM PROGRAMMINGII.Producto WHERE referencia=?";
-		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-			stmt.setInt(1, referencia);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				return rs.getInt("referencia") == referencia;
-			}
+		String sql = "{? = call PROGRAMMINGII.AuthenticateProducto(?)}";
+		try (CallableStatement stmt = connection.prepareCall(sql)) {
+			stmt.registerOutParameter(1, java.sql.Types.INTEGER);
+			stmt.setInt(2, referencia);
+			stmt.execute();
+			int result = stmt.getInt(1);
+			return result == 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			Main.showAlert("Error...!", "Proceso invalido!", e.getMessage(), Alert.AlertType.ERROR);
 		}
 		return false;
 	}
