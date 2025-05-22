@@ -3,7 +3,6 @@ package data;
 import java.sql.CallableStatement;
 import oracle.jdbc.OracleTypes;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -46,7 +45,11 @@ public class ProductoDAO {
 					double precio = rs.getDouble("precio");
 					int cantidad = rs.getInt("cantidad");
 					Producto producto = new Producto(referencia, nombre, precio, cantidad);
-					productos.add(producto);
+					if (precio > 0 && productos.size() < 10) {
+						productos.add(producto);
+					} else {
+						Main.showAlert("Error...!", "Proceso invalido!", "Ingreso del precio invalido o no superes la cantidad de productos.", Alert.AlertType.WARNING);
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -71,12 +74,13 @@ public class ProductoDAO {
 	}
 
 	public void delete(int referencia) {
-		String sql = "DELETE FROM PROGRAMMINGII.Producto WHERE referencia=?";
-		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+		String sql = "{? = call PROGRAMMINGII.AuthenticateProducto(?)}";
+		try (CallableStatement stmt = connection.prepareCall(sql)) {
 			stmt.setInt(1, referencia);
-			stmt.executeUpdate();
+			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			Main.showAlert("Error...!", "Proceso invalido!", e.getMessage(), Alert.AlertType.ERROR);
 		}
 	}
 
