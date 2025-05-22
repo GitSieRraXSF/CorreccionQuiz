@@ -18,6 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Producto;
@@ -64,7 +65,8 @@ public class RegistroProductosController {
 	@FXML
 	private Button CATemplate;
 
-	private Connection connection = DBConnectionFactory.getConnectionByRole(UserSession.getInstance().getRole()).getConnection();
+	private Connection connection = DBConnectionFactory.getConnectionByRole(UserSession.getInstance().getRole())
+			.getConnection();
 	private ProductoDAO productoDAO = new ProductoDAO(connection);
 
 	@FXML
@@ -92,7 +94,9 @@ public class RegistroProductosController {
 			productoDAO.delete(producto.getReferencia());
 			initialize();
 		} else {
-			Main.showAlert("Ningun producto seleccionado O Acceso denegado", "Referencia repetida O Acceso denegado", "Debe registrar una referencia diferente O debes entrar al rol respectivo.", Alert.AlertType.WARNING);
+			Main.showAlert("Ningun producto seleccionado O Acceso denegado", "Referencia repetida O Acceso denegado",
+					"Debe registrar una referencia diferente O debes entrar al rol respectivo.",
+					Alert.AlertType.WARNING);
 		}
 		initialize();
 	}
@@ -109,10 +113,13 @@ public class RegistroProductosController {
 				productoDAO.save(producto);
 				initialize();
 			} else {
-				Main.showAlert("Funcion Invalida!", "Inventario lleno", "Deberas eliminar algunos productos antes para guardar otro.", Alert.AlertType.ERROR);
+				Main.showAlert("Funcion Invalida!", "Inventario lleno",
+						"Deberas eliminar algunos productos antes para guardar otro.", Alert.AlertType.ERROR);
 			}
 		} else {
-			Main.showAlert("Referencia repetida O Acceso denegado", "Referencia repetida O Acceso denegado", "Debe registrar una referencia diferente O debes entrar al rol respectivo.", Alert.AlertType.WARNING);
+			Main.showAlert("Referencia repetida O Acceso denegado", "Referencia repetida O Acceso denegado",
+					"Debe registrar una referencia diferente O debes entrar al rol respectivo.",
+					Alert.AlertType.WARNING);
 		}
 	}
 
@@ -121,7 +128,8 @@ public class RegistroProductosController {
 		if (UserSession.getInstance().getRole().equals("admin")) {
 			apachebook.createExcelFormat("Productos.xlsx");
 		} else {
-			Main.showAlert("Acceso denegado", "Rol no correspondiente", "Debes entrar al rol respectivo para crear los archivos.", Alert.AlertType.WARNING);
+			Main.showAlert("Acceso denegado", "Rol no correspondiente",
+					"Debes entrar al rol respectivo para crear los archivos.", Alert.AlertType.WARNING);
 		}
 	}
 
@@ -136,15 +144,22 @@ public class RegistroProductosController {
 			ArrayList<Producto> productosExcel = apachebook.fetchExcel(archivoSeleccionado);
 			LoadTableView(productosExcel);
 		} else {
-			Main.showAlert("Acceso denegado", "Rol no correspondiente", "Debes entrar al rol respectivo para cargar archivos.", Alert.AlertType.WARNING);
+			Main.showAlert("Acceso denegado", "Rol no correspondiente",
+					"Debes entrar al rol respectivo para cargar archivos.", Alert.AlertType.WARNING);
 		}
 	}
 
 	private void LoadTableView(ArrayList<Producto> productos) {
-		columnNom1.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		columnPre1.setCellValueFactory(new PropertyValueFactory<>("precio"));
 		columnRef1.setCellValueFactory(new PropertyValueFactory<>("referencia"));
+		columnNom1.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+		columnNom1.setCellFactory(TextFieldTableCell.forTableColumn());
+		columnNom1.setOnEditCommit(event -> {
+			Producto product = event.getRowValue();
+			product.setNombre(event.getNewValue());
+		});
 		table1pro.getItems().setAll(productos);
+		table1pro.setEditable(true);
 	}
 
 	@FXML
