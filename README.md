@@ -5,7 +5,7 @@ Software de la gestion de los servicios y productos...
 ## Lenguaje de desarrollo
 > Java
 
-## Graphical user interface
+## Interfaz gráfica de usuario
 > JavaFX
 > SceneBuilder
 
