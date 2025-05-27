@@ -24,7 +24,7 @@ public class ProductoDAO {
 			stmt.setString(2, producto.getNombre());
 			stmt.setDouble(3, producto.getPrecio());
 			stmt.setInt(4, producto.getCantidad());
-			stmt.executeUpdate();
+			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Main.showAlert("Error...!", "Proceso invalido!", e.getMessage(), Alert.AlertType.ERROR);
@@ -62,11 +62,11 @@ public class ProductoDAO {
 	public void update(Producto producto) {
 		String sql = "{call = PROGRAMMINGII.UpdateProducts(?, ?, ?, ?)}";
 		try (CallableStatement stmt = connection.prepareCall(sql)) {
-			stmt.setString(1, producto.getNombre());
-			stmt.setDouble(2, producto.getPrecio());
-			stmt.setInt(3, producto.getCantidad());
-			stmt.setInt(4, producto.getReferencia());
-			stmt.executeUpdate();
+			stmt.setInt(1, producto.getReferencia());
+			stmt.setString(2, producto.getNombre());
+			stmt.setDouble(3, producto.getPrecio());
+			stmt.setInt(4, producto.getCantidad());
+			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Main.showAlert("Error...!", "Proceso invalido!", e.getMessage(), Alert.AlertType.ERROR);
@@ -74,7 +74,7 @@ public class ProductoDAO {
 	}
 
 	public void delete(int referencia) {
-		String sql = "{? = call PROGRAMMINGII.AuthenticateProducto(?)}";
+		String sql = "{call PROGRAMMINGII.DeleteProducto(?)}";
 		try (CallableStatement stmt = connection.prepareCall(sql)) {
 			stmt.setInt(1, referencia);
 			stmt.execute();
