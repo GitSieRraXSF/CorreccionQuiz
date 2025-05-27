@@ -9,7 +9,7 @@ public class AdminConnection implements DBConnection {
     private Connection connection;
 	private final String username = "adminPro";
 	private final String password = "adminPro";
-	private final String host = "192.168.254.215";
+	private final String host = "192.168.254.215"; //Computer room 5 host 
 	private final String port = "1521";
 	private final String service = "orcl";
 
