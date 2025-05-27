@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class AdminConnection implements DBConnection {
     private static AdminConnection instance; //Singleton
     private Connection connection;
-	private final String username="adminPro";
-	private final String password="adminPro";
+	private final String username = "adminPro";
+	private final String password = "adminPro";
 	private final String host = "192.168.254.215";
 	private final String port = "1521";
 	private final String service = "orcl";
