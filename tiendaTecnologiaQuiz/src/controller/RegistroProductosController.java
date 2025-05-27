@@ -157,6 +157,7 @@ public class RegistroProductosController {
 		columnNom1.setOnEditCommit(event -> {
 			Producto product = event.getRowValue();
 			product.setNombre(event.getNewValue());
+			productoDAO.update(product);
 		});
 		table1pro.getItems().setAll(productos);
 		table1pro.setEditable(true);
