@@ -34,7 +34,7 @@ public class ProductoDAO {
 	public ArrayList<Producto> fetch() {
 		ArrayList<Producto> productos = new ArrayList<>();
 		//String sequel = "SELECT * FROM PROGRAMMINGII.Producto";
-		String sql = "{? = call PROGRAMMINGII.FetchProducts()}";
+		String sql = "{? = call PROGRAMMINGII.FetchProductos()}";
 		try (CallableStatement cs = connection.prepareCall(sql)) {
 			cs.registerOutParameter(1, OracleTypes.CURSOR);
 			cs.execute();
@@ -45,11 +45,7 @@ public class ProductoDAO {
 					double precio = rs.getDouble("precio");
 					int cantidad = rs.getInt("cantidad");
 					Producto producto = new Producto(referencia, nombre, precio, cantidad);
-					if (precio > 0 && productos.size() < 10) {
-						productos.add(producto);
-					} else {
-						Main.showAlert("Error...!", "Proceso invalido!", "Ingreso del precio invalido o no superes la cantidad de productos.", Alert.AlertType.WARNING);
-					}
+					productos.add(producto);
 				}
 			}
 		} catch (SQLException e) {
@@ -60,7 +56,7 @@ public class ProductoDAO {
 	}
 	
 	public void update(Producto producto) {
-		String sql = "{call = PROGRAMMINGII.UpdateProducts(?, ?, ?, ?)}";
+		String sql = "{call = PROGRAMMINGII.UpdateProducto(?, ?, ?, ?)}";
 		try (CallableStatement stmt = connection.prepareCall(sql)) {
 			stmt.setInt(1, producto.getReferencia());
 			stmt.setString(2, producto.getNombre());

@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import model.UserSession;
 
 public class LoginController {
 
@@ -24,7 +25,7 @@ public class LoginController {
 
 	private Connection connection;
 	private UsuarioDAO usuarioDAO;
-	
+	public UserSession userSession;
 	@FXML
 	void initialize() {
 		rolComboBox.getItems().addAll("admin", "student", "teacher");
@@ -36,7 +37,8 @@ public class LoginController {
 			case "admin":
 				connection = DBConnectionFactory.getConnectionByRole("admin").getConnection();
 				usuarioDAO = new UsuarioDAO(connection);
-				if (usuarioDAO.authenticate(txtUsuario.getText(), txtContraseña.getText(), "admin")) {
+				if (usuarioDAO.authenticate(txtUsuario.getText(), txtContraseña.getText(), "admin") && (!txtUsuario.getText().isBlank() || !txtContraseña.getText().isBlank())) {
+					userSession = UserSession.getInstance(txtUsuario.getText(), "admin");
 					Main.loadView("/view/RegistroProductos.fxml");
 				} else {
 					Main.showAlert("Usuario Invalida", "Usuario Invalido", "Digite un usuario valido.", Alert.AlertType.WARNING);
@@ -45,7 +47,8 @@ public class LoginController {
 			case "teacher":
 				connection = DBConnectionFactory.getConnectionByRole("teacher").getConnection();
 				usuarioDAO = new UsuarioDAO(connection);
-				if (usuarioDAO.authenticate(txtUsuario.getText(), txtContraseña.getText(), "teacher")) {
+				if (usuarioDAO.authenticate(txtUsuario.getText(), txtContraseña.getText(), "admin") && (!txtUsuario.getText().isBlank() || !txtContraseña.getText().isBlank())) {
+					userSession = UserSession.getInstance(txtUsuario.getText(), "teacher");
 					Main.loadView("/view/RegistroProductos.fxml");
 				} else {
 					Main.showAlert("Usuario Invalida", "Usuario Invalido", "Digite un usuario valido.", Alert.AlertType.WARNING);
@@ -54,12 +57,15 @@ public class LoginController {
 			case "student":
 				connection = DBConnectionFactory.getConnectionByRole("student").getConnection();
 				usuarioDAO = new UsuarioDAO(connection);
-				if (usuarioDAO.authenticate(txtUsuario.getText(), txtContraseña.getText(), "student")) {
+				if (usuarioDAO.authenticate(txtUsuario.getText(), txtContraseña.getText(), "admin") && (!txtUsuario.getText().isBlank() || !txtContraseña.getText().isBlank())) {
+					userSession = UserSession.getInstance(txtUsuario.getText(), "student");
 					Main.loadView("/view/RegistroProductos.fxml");
 				} else {
 					Main.showAlert("Usuario Invalida", "Usuario Invalido", "Digite un usuario valido.", Alert.AlertType.WARNING);
 				}
 				break;
+			default:
+				Main.showAlert("Error!", "Seleccion invalida", "Digite un usuario valido.", Alert.AlertType.ERROR);
 		}
 	}
 }
