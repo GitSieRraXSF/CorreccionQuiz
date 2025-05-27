@@ -161,6 +161,7 @@ public class RegistroProductosController {
 		});
 		table1pro.getItems().setAll(productos);
 		table1pro.setEditable(true);
+		initialize();
 	}
 
 	@FXML
