@@ -35,8 +35,8 @@
                   <TableView fx:id="tableProductos" prefHeight="301.0" prefWidth="305.0" GridPane.rowIndex="1" GridPane.rowSpan="5">
                     <columns>
                       <TableColumn fx:id="columnNombre" prefWidth="79.99999809265137" text="Nombre" />
-                      <TableColumn fx:id="columnPrecio" prefWidth="68.00000762939453" text="Precio" />
-                        <TableColumn fx:id="columnCantidad" prefWidth="85.60003662109375" text="Cantidad" />
+                      <TableColumn fx:id="columnPrecio" prefWidth="81.0" text="Precio" />
+                        <TableColumn fx:id="columnCantidad" prefWidth="83.0" text="Cantidad" />
                     </columns>
                   </TableView>
                   <Label text="Productos disponibles" />
@@ -57,6 +57,9 @@
                           </columns>
                         </TableView>
                      </children>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                     </columnConstraints>
                   </GridPane>
                   <Button mnemonicParsing="false" onAction="#eliminar" text="Eliminar" GridPane.rowIndex="6" />
                   <Button mnemonicParsing="false" onAction="#registrar" text="Registrar" GridPane.columnIndex="1" GridPane.rowIndex="5" />
